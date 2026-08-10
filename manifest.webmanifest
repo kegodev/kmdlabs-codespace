@@ -1,0 +1,12 @@
+{
+  "name": "CodeSpace — KM Digital Labs",
+  "short_name": "CodeSpace",
+  "description": "A fast, private browser coding workspace for web projects.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#171916",
+  "theme_color": "#171916",
+  "icons": [
+    {"src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
+  ]
+}

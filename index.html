@@ -4,9 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#171916">
+<meta name="description" content="A fast, private browser coding workspace for HTML, CSS and JavaScript projects.">
+<meta property="og:title" content="CodeSpace — KM Digital Labs">
+<meta property="og:description" content="Edit multi-file web projects, run a live preview and keep your work in your browser.">
 <title>Coding Space — KM Digital Labs</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,10 +28,10 @@
     </span>
   </div>
   <div class="actions">
-    <a class="site-home-link" href="index.html" title="Back to KM Digital Labs website" aria-label="Back to KM Digital Labs website">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      <span>Website</span>
-    </a>
+    <button class="site-home-link" id="commandBtn" type="button" title="Command palette (Ctrl/Cmd + Shift + P)" aria-label="Open command palette">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m8 9-3 3 3 3M16 9l3 3-3 3M14 5l-4 14"/></svg>
+      <span>Commands</span>
+    </button>
     <div class="autorun">
       auto-run
       <div class="toggle on" id="autoToggle"><div class="knob"></div></div>
@@ -49,9 +52,25 @@
 </div>
 
 <div class="main" role="main" aria-label="Coding workspace">
+  <nav class="activity-rail" aria-label="Workbench tools">
+    <button type="button" class="activity-btn active" data-side-panel="explorer" title="Explorer" aria-label="Explorer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg>
+    </button>
+    <button type="button" class="activity-btn" data-side-panel="search" title="Search project (Ctrl/Cmd + Shift + F)" aria-label="Search project">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+    </button>
+    <button type="button" class="activity-btn" id="railCommandBtn" title="Command palette" aria-label="Command palette">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 8 3 12l4 4M17 8l4 4-4 4M14 4l-4 16"/></svg>
+    </button>
+    <span class="activity-spacer"></span>
+    <a class="activity-btn" href="https://github.com/kegodev/kmdlabs-codespace" target="_blank" rel="noopener" title="View source on GitHub" aria-label="View source on GitHub">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .7A11.5 11.5 0 0 0 8.4 23c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.3 11.3 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .7Z"/></svg>
+    </a>
+  </nav>
   <div class="sidebar" id="sidebar">
-    <div class="sidebar-head">
-      <span>Files</span>
+    <div class="side-panel active" id="explorerPanel">
+      <div class="sidebar-head">
+      <span>Explorer</span>
       <div class="sidebar-icons">
         <button class="icon-btn" id="newFileBtn" title="New file" aria-label="New file">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
@@ -68,20 +87,38 @@
         </button>
       </div>
     </div>
+    <label class="file-filter-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input id="fileFilter" type="search" autocomplete="off" spellcheck="false" placeholder="Filter files…" aria-label="Filter files">
+      <kbd>⌘P</kbd>
+    </label>
     <input type="file" id="fileInput" multiple style="display:none"
-      accept=".html,.htm,.css,.js,.mjs,.ts,.tsx,.jsx,.json,.php,.md,.markdown,.py,.txt,.xml,.yml,.yaml,.svg,.png,.jpg,.jpeg,.gif,.webp">
+      accept=".html,.htm,.css,.js,.mjs,.ts,.tsx,.jsx,.json,.php,.md,.markdown,.py,.txt,.xml,.yml,.yaml,.svg,.png,.jpg,.jpeg,.gif,.webp,.kmdspace">
     <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none">
     <div class="mobile-manage-hint" id="mobileManageHint">Delete mode is on — tap the red Delete button beside a file or folder.</div>
     <div class="file-list" id="fileList"></div>
     <div class="drop-hint">drag &amp; drop files or whole folders here</div>
+    </div>
+    <div class="side-panel" id="searchPanel">
+      <div class="sidebar-head"><span>Project search</span></div>
+      <form class="project-search" id="projectSearchForm">
+        <input id="projectSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="Search every text file…" aria-label="Search project">
+        <button type="submit" class="icon-btn" aria-label="Run search" title="Run search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        </button>
+      </form>
+      <p class="search-summary" id="searchSummary">Search filenames and file contents.</p>
+      <div class="search-results" id="searchResults"></div>
+    </div>
   </div>
 
   <div class="editor-pane" id="editorPane">
+    <div class="editor-tabs" id="editorTabs" role="tablist" aria-label="Open files"></div>
     <div class="editor-topline" id="editorTopline"></div>
     <div class="editor-wrap" id="editorWrap"></div>
     <div class="editor-status">
       <span id="saveStatus" class="saved">saved locally</span>
-      <span id="cursorStatus">Ln 1, Col 1</span>
+      <span class="status-cluster"><span id="workspaceStatus">3 files</span><span id="compileStatus">Ready</span><span>UTF-8</span><span id="languageStatus">HTML</span><span id="cursorStatus">Ln 1, Col 1</span></span>
     </div>
   </div>
 
@@ -137,6 +174,36 @@
     </div>
   </div>
 </div>
+
+<div class="palette" id="commandPalette" aria-hidden="true">
+  <button class="palette-backdrop" type="button" aria-label="Close command palette" data-close-palette></button>
+  <section class="palette-card" role="dialog" aria-modal="true" aria-labelledby="paletteTitle">
+    <h2 class="sr-only" id="paletteTitle">Command palette</h2>
+    <div class="palette-input-row">
+      <span aria-hidden="true">›</span>
+      <input id="paletteInput" type="search" autocomplete="off" spellcheck="false" placeholder="Type a command…" aria-label="Filter commands">
+      <kbd>Esc</kbd>
+    </div>
+    <div class="palette-results" id="paletteResults" role="listbox"></div>
+  </section>
+</div>
+
+<div class="shortcut-dialog" id="shortcutDialog" aria-hidden="true">
+  <button class="palette-backdrop" type="button" aria-label="Close keyboard shortcuts" data-close-shortcuts></button>
+  <section class="shortcut-card" role="dialog" aria-modal="true" aria-labelledby="shortcutTitle">
+    <div class="shortcut-title"><div><span>Reference</span><h2 id="shortcutTitle">Keyboard shortcuts</h2></div><button class="icon-btn" type="button" data-close-shortcuts aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="shortcut-grid">
+      <span>Quick open</span><kbd>Ctrl / ⌘ + P</kbd>
+      <span>Command palette</span><kbd>Ctrl / ⌘ + Shift + P</kbd>
+      <span>Search project</span><kbd>Ctrl / ⌘ + Shift + F</kbd>
+      <span>Run preview</span><kbd>Ctrl / ⌘ + Enter</kbd>
+      <span>Save locally</span><kbd>Ctrl / ⌘ + S</kbd>
+      <span>New file</span><kbd>Ctrl / ⌘ + N</kbd>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <div class="delete-sheet" id="deleteSheet" aria-hidden="true">
   <button class="delete-sheet-backdrop" id="deleteSheetBackdrop" type="button" aria-label="Cancel deletion"></button>

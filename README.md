@@ -1,787 +1,133 @@
-# CodeSpace — KM Digital Labs
+<div align="center">
+  <img src="favicon.svg" width="84" alt="KM Digital Labs CodeSpace logo">
+  <h1>CodeSpace</h1>
+  <p><strong>A fast, private browser workbench for building web projects.</strong></p>
+  <p>Edit multiple files, inspect console output and preview responsive layouts without installing an editor.</p>
+  <p>
+    <a href="https://kegodev.github.io/kmdlabs-codespace/"><strong>Open the live workbench →</strong></a>
+    ·
+    <a href="#quick-start">Quick start</a>
+    ·
+    <a href="CONTRIBUTING.md">Contribute</a>
+  </p>
+  <p>
+    <img alt="No framework" src="https://img.shields.io/badge/runtime-zero_dependencies-2f5d45?style=flat-square">
+    <img alt="Progressive Web App" src="https://img.shields.io/badge/PWA-offline_ready-f36a2d?style=flat-square">
+    <img alt="Local-first" src="https://img.shields.io/badge/storage-local_first-cdd9c8?style=flat-square&labelColor=171916">
+  </p>
+</div>
 
-[![Built with JavaScript](https://img.shields.io/badge/built%20with-vanilla%20JavaScript-f7df1e)](#technology-stack)
-[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-2ea44f)](CONTRIBUTING.md)
+![CodeSpace workbench with Explorer, smart editor, live preview and console](assets/readme/codespace-workbench.png)
 
-A responsive, browser-based code editor and live compiler built with HTML, CSS, and vanilla JavaScript.
+## Why CodeSpace
 
-CodeSpace allows users to create and manage multiple project files, write code directly in the browser, and preview HTML, CSS, and JavaScript changes instantly—without installing dependencies, configuring a backend, or running a build process.
+CodeSpace turns a browser tab into a focused front-end lab. It borrows the useful parts of a desktop IDE—an Explorer, tabs, project search, a command palette, keyboard shortcuts and a console—while keeping the setup small enough for a classroom, a quick prototype or a low-spec computer.
 
-Developed by **KM Digital Labs**.
+The application has no framework or package runtime. Its core HTML, CSS and JavaScript load directly from GitHub Pages, and an offline cache keeps the workbench available after the first successful visit.
 
----
+### Workbench highlights
 
-## Overview
+| Area | What it gives you |
+| --- | --- |
+| Editor | Multi-file tabs, line numbers, syntax colour, paired characters, indentation and context suggestions |
+| Navigation | Explorer, quick open, filename filter, full-project text search and a command palette |
+| Preview | Sandboxed HTML/CSS/JavaScript output with desktop, tablet and mobile viewports |
+| Feedback | Captured `log`, `warn`, runtime error and unhandled rejection output |
+| Speed | 90 ms run scheduling, in-place CSS hot updates, large-file fallback and no external font request |
+| Files | Create, rename, delete, upload, drag and drop, folder upload and active-file download |
+| Portability | Export or import the full project as one `.kmdspace` workspace file |
+| Persistence | Files, open tabs and workbench preferences are restored from browser storage |
+| Mobile | Dedicated Files, Editor and Preview views with touch-friendly controls |
+| Offline | Installable Progressive Web App shell cached by a service worker |
 
-CodeSpace provides a lightweight development environment for building and testing front-end projects directly in the browser.
+## Supported files
 
-It includes a virtual file system, live preview, console output, responsive device testing, file importing, local persistence, and mobile-friendly controls.
+<picture>
+  <img src="assets/readme/supported-file-types.svg" width="1200" alt="Visual guide to supported HTML, CSS, JavaScript and JSX, TypeScript and TSX, JSON, Markdown, PHP, Python, YAML, XML and image files">
+</picture>
 
-The application runs entirely on the client side.
+HTML, CSS and standard JavaScript run in the live preview. The other visualized formats can be opened and edited; image formats are stored as project assets and shown in the editor preview. CodeSpace intentionally does not pretend to execute server-side languages or transpile JSX/TypeScript in the browser.
 
----
+## Quick start
 
-## Features
+1. Open the [live CodeSpace workbench](https://kegodev.github.io/kmdlabs-codespace/).
+2. Choose a file in Explorer and start typing. The starter project includes `index.html`, `style.css` and `script.js`.
+3. Select **Compile**, or press <kbd>Ctrl/⌘ + Enter</kbd>, to open the preview.
+4. Use the device buttons above the preview to check desktop, tablet and mobile layouts.
+5. Export a `.kmdspace` file from the command palette when you need a portable backup.
 
-### Multi-file workspace
+Your project is saved automatically in the current browser. Clearing site data removes that local copy, so export important work before clearing browser storage or changing devices.
 
-Create, edit, rename, organise, and delete files and folders from the built-in file explorer.
+### Keyboard workflow
 
-The workspace supports common development file types, including:
+| Shortcut | Action |
+| --- | --- |
+| <kbd>Ctrl/⌘ + P</kbd> | Quick-open a file |
+| <kbd>Ctrl/⌘ + Shift + P</kbd> | Open the command palette |
+| <kbd>Ctrl/⌘ + Shift + F</kbd> | Search the project |
+| <kbd>Ctrl/⌘ + Enter</kbd> | Compile and open the preview |
+| <kbd>Ctrl/⌘ + S</kbd> | Save the workspace immediately |
+| <kbd>Ctrl/⌘ + N</kbd> | Create a file |
 
-* HTML
-* CSS
-* JavaScript and JSX
-* TypeScript and TSX
-* JSON
-* Markdown
-* PHP
-* Python
-* YAML
-* XML
-* Image files
+## Run it locally
 
-Each recognised file type is displayed with a suitable visual indicator in the file explorer.
-
-### Live preview
-
-CodeSpace compiles the workspace starting from `index.html` and displays the result inside a sandboxed preview frame.
-
-Linked CSS and JavaScript files are automatically loaded into the preview.
-
-Code can be compiled in two ways:
-
-* Enable **Auto Run** to update the preview while typing.
-* Select **Compile** to run the project manually.
-
-Keyboard shortcut:
-
-```text
-Ctrl + Enter
-```
-
-On macOS:
-
-```text
-Command + Enter
-```
-
-### Responsive preview modes
-
-Test projects at different viewport sizes using the preview toolbar:
-
-* Desktop
-* Tablet
-* Mobile
-
-The compiled project can also be opened in a separate browser tab.
-
-### Integrated console
-
-The console panel captures output generated by the running project, including:
-
-```javascript
-console.log();
-console.warn();
-console.error();
-```
-
-Runtime errors are also displayed to assist with debugging.
-
-### File and folder importing
-
-Import existing project files using:
-
-* File upload
-* Folder upload
-* Drag and drop
-
-The application supports text files, images, and other compatible project assets.
-
-### Local persistence
-
-Workspace data is stored in the browser using `localStorage`.
-
-The following information is preserved after refreshing or reopening the application:
-
-* Project files
-* File contents
-* Active file
-* Folder structure
-* Workspace state
-
-> Clearing browser storage may permanently remove locally saved workspace data.
-
-### File downloads
-
-The currently selected file can be downloaded directly to the user's device.
-
-### Mobile-friendly interface
-
-CodeSpace is designed for both desktop and mobile use.
-
-On smaller screens, a bottom navigation dock provides access to:
-
-* Files
-* Editor
-* Preview
-
-The interface adapts to different screen sizes while keeping the main development tools accessible.
-
----
-
-## Technology Stack
-
-CodeSpace is built using:
-
-* HTML5
-* CSS3
-* Vanilla JavaScript
-* Browser `localStorage`
-* Sandboxed `<iframe>` preview execution
-
-Fonts used:
-
-* Space Grotesk
-* JetBrains Mono
-
-No JavaScript frameworks, backend services, package managers, or build tools are required.
-
----
-
-## Getting Started
-
-### Option 1: Clone the repository
+No build step is required.
 
 ```bash
 git clone https://github.com/kegodev/kmdlabs-codespace.git
-```
-
-Move into the project directory:
-
-```bash
 cd kmdlabs-codespace
+python3 -m http.server 8000
 ```
 
-Open `index.html` in a modern web browser.
+Then visit `http://localhost:8000`. A local server is recommended because browsers do not enable service workers on `file://` pages.
 
-### Option 2: Download the project
-
-1. Select **Code** on the GitHub repository.
-2. Select **Download ZIP**.
-3. Extract the downloaded folder.
-4. Open `index.html` in a browser.
-
-### Option 3: Use a local static server
-
-A static development server is recommended for more consistent browser behaviour.
-
-Using Node.js:
-
-```bash
-npx serve .
-```
-
-Using Python:
-
-```bash
-python -m http.server 8000
-```
-
-Then open the local address shown in the terminal.
-
----
-
-## Default Workspace
-
-When CodeSpace is opened for the first time, the virtual workspace includes:
+## How the preview works
 
 ```text
-index.html
-style.css
-script.js
+Workspace files
+    ├── index.html ── parsed as the entry document
+    ├── *.css ─────── linked or injected into the document
+    ├── *.js ──────── linked or appended in project order
+    └── images ────── converted to in-memory data URLs
+                         │
+                         ▼
+                sandboxed iframe preview
+                         │
+                         ▼
+                 console message bridge
 ```
 
-These files provide a basic starting point for creating a front-end project.
+Local stylesheet, script and image references are resolved inside the virtual project before the result is assigned to `iframe.srcdoc`. Editing an included stylesheet uses an in-place style update; structural HTML or JavaScript changes rebuild the preview document.
 
----
+## Privacy and safety
 
-## Usage
+- Editing and persistence happen on the device; CodeSpace has no project database or account backend.
+- Preview code runs in a sandboxed iframe, separated from the workbench document.
+- Console events are accepted only from the active preview frame.
+- Imported projects remain local unless the user explicitly downloads or publishes them.
 
-### Create a file
+Do not use browser storage as the only copy of important work. CodeSpace is a learning and prototyping environment, not a replacement for Git history, access control or server-side secret management.
 
-Select the **plus icon** in the file explorer and enter the new file name.
-
-Example:
+## Project structure
 
 ```text
-about.html
+.
+├── index.html                  # Workbench structure and accessible controls
+├── style.css                   # Responsive VS Code-inspired interface
+├── script.js                   # Editor, virtual files, search and compiler
+├── manifest.webmanifest        # Installable app metadata
+├── sw.js                       # Offline application-shell cache
+├── favicon.svg                 # Brand/application icon
+├── assets/readme/              # README visuals and product screenshot
+└── .github/                    # Issue and pull-request templates
 ```
-
-### Import files
-
-Upload or drag project files into the file explorer.
-
-Files and folders will be added to the virtual workspace.
-
-### Edit code
-
-Select a file from the sidebar and write or modify its contents in the editor.
-
-### Compile the project
-
-Select **Compile** or use:
-
-```text
-Ctrl + Enter
-```
-
-The application reads `index.html`, resolves linked workspace files, and renders the result in the preview panel.
-
-### Test responsive layouts
-
-Use the desktop, tablet, and mobile controls in the preview toolbar.
-
-### Download a file
-
-Open the required file and select **Download**.
-
-### Reset the workspace
-
-Select **Reset** to remove the current workspace and restore the default starter files.
-
-> Resetting the workspace may permanently remove unsaved project files.
-
----
-
-## Project Structure
-
-```text
--kmdlabs-codespace/
-├── index.html
-├── style.css
-├── script.js
-└── README.md
-```
-
-### `index.html`
-
-Contains the application interface and page structure.
-
-### `style.css`
-
-Contains the CodeSpace layout, responsive design, animations, themes, editor styling, and component styles.
-
-### `script.js`
-
-Contains the application logic, including:
-
-* Virtual file management
-* File creation and deletion
-* Local workspace persistence
-* Preview compilation
-* Console capture
-* File importing
-* File downloading
-* Responsive interface controls
-
----
-
-## Browser Support
-
-CodeSpace is intended for modern browsers that support:
-
-* `localStorage`
-* File APIs
-* Drag-and-drop APIs
-* Sandboxed iframes
-* Modern JavaScript syntax
-
-Recommended browsers include:
-
-* Google Chrome
-* Microsoft Edge
-* Mozilla Firefox
-* Safari
-
-Some folder-upload functionality may vary between browsers.
-
----
-
-## Security
-
-Compiled projects run inside a sandboxed `<iframe>` to separate previewed code from the main CodeSpace interface.
-
-However, users should still avoid importing or running untrusted JavaScript files.
-
-CodeSpace is a client-side development tool and should not be treated as a secure environment for executing unknown or potentially malicious code.
-
----
-
-## Current Limitations
-
-* Projects are stored in the current browser rather than in a cloud account.
-* Workspace data does not automatically synchronise between devices.
-* The editor is intended primarily for front-end development.
-* Server-side languages such as PHP and Python can be edited but are not executed in the browser.
-* Clearing browser data may delete locally stored projects.
-* Only the currently selected file can be downloaded directly.
-
----
-
-## Planned Improvements
-
-Possible future improvements include:
-
-* Full project ZIP export
-* Multiple project workspaces
-* Cloud storage and account synchronisation
-* Improved syntax highlighting
-* Code formatting
-* Search and replace
-* Custom editor themes
-* Additional keyboard shortcuts
-* GitHub repository integration
-* Improved error reporting
-
----
 
 ## Contributing
 
-Contributions, bug reports, and improvement suggestions are welcome.
-
-To contribute:
-
-1. Fork the repository.
-2. Create a new branch.
-
-```bash
-git checkout -b feature/improvement-name
-```
-
-3. Make and test your changes.
-4. Commit the changes.
-
-```bash
-git commit -m "Add improvement description"
-```
-
-5. Push the branch.
-
-```bash
-git push origin feature/improvement-name
-```
-
-6. Open a pull request.
-
-Please keep pull requests focused on one feature, fix, or improvement.
-
----
-
-## Author
-
-Developed by **KM Digital Labs**.
-
-GitHub: [@kegodev](https://github.com/kegodev)
-
----
+Focused pull requests are welcome. Good contributions include browser compatibility fixes, editor accessibility, reproducible import/export fixes, performance improvements and documentation examples. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request and include the browsers or devices you tested.
 
 ## License
 
-Copyright © KM Digital Labs.
+Copyright © KM Digital Labs. All rights reserved unless the repository owner supplies a separate written licence.
 
-All rights reserved unless otherwise stated.
-
-The source code may not be copied, redistributed, sold, or used commercially without prior permission from KM Digital Labs.
-# CodeSpace — KM Digital Labs
-
-A responsive, browser-based code editor and live compiler built with HTML, CSS, and vanilla JavaScript.
-
-CodeSpace allows users to create and manage multiple project files, write code directly in the browser, and preview HTML, CSS, and JavaScript changes instantly—without installing dependencies, configuring a backend, or running a build process.
-
-Developed by **KM Digital Labs**.
-
----
-
-## Overview
-
-CodeSpace provides a lightweight development environment for building and testing front-end projects directly in the browser.
-
-It includes a virtual file system, live preview, console output, responsive device testing, file importing, local persistence, and mobile-friendly controls.
-
-The application runs entirely on the client side.
-
----
-
-## Features
-
-### Multi-file workspace
-
-Create, edit, rename, organise, and delete files and folders from the built-in file explorer.
-
-The workspace supports common development file types, including:
-
-* HTML
-* CSS
-* JavaScript and JSX
-* TypeScript and TSX
-* JSON
-* Markdown
-* PHP
-* Python
-* YAML
-* XML
-* Image files
-
-Each recognised file type is displayed with a suitable visual indicator in the file explorer.
-
-### Live preview
-
-CodeSpace compiles the workspace starting from `index.html` and displays the result inside a sandboxed preview frame.
-
-Linked CSS and JavaScript files are automatically loaded into the preview.
-
-Code can be compiled in two ways:
-
-* Enable **Auto Run** to update the preview while typing.
-* Select **Compile** to run the project manually.
-
-Keyboard shortcut:
-
-```text
-Ctrl + Enter
-```
-
-On macOS:
-
-```text
-Command + Enter
-```
-
-### Responsive preview modes
-
-Test projects at different viewport sizes using the preview toolbar:
-
-* Desktop
-* Tablet
-* Mobile
-
-The compiled project can also be opened in a separate browser tab.
-
-### Integrated console
-
-The console panel captures output generated by the running project, including:
-
-```javascript
-console.log();
-console.warn();
-console.error();
-```
-
-Runtime errors are also displayed to assist with debugging.
-
-### File and folder importing
-
-Import existing project files using:
-
-* File upload
-* Folder upload
-* Drag and drop
-
-The application supports text files, images, and other compatible project assets.
-
-### Local persistence
-
-Workspace data is stored in the browser using `localStorage`.
-
-The following information is preserved after refreshing or reopening the application:
-
-* Project files
-* File contents
-* Active file
-* Folder structure
-* Workspace state
-
-> Clearing browser storage may permanently remove locally saved workspace data.
-
-### File downloads
-
-The currently selected file can be downloaded directly to the user's device.
-
-### Mobile-friendly interface
-
-CodeSpace is designed for both desktop and mobile use.
-
-On smaller screens, a bottom navigation dock provides access to:
-
-* Files
-* Editor
-* Preview
-
-The interface adapts to different screen sizes while keeping the main development tools accessible.
-
----
-
-## Technology Stack
-
-CodeSpace is built using:
-
-* HTML5
-* CSS3
-* Vanilla JavaScript
-* Browser `localStorage`
-* Sandboxed `<iframe>` preview execution
-
-Fonts used:
-
-* Space Grotesk
-* JetBrains Mono
-
-No JavaScript frameworks, backend services, package managers, or build tools are required.
-
----
-
-## Getting Started
-
-### Option 1: Clone the repository
-
-```bash
-git clone https://github.com/kegodev/-kmdlabs-codespace.git
-```
-
-Move into the project directory:
-
-```bash
-cd -kmdlabs-codespace
-```
-
-Open `index.html` in a modern web browser.
-
-### Option 2: Download the project
-
-1. Select **Code** on the GitHub repository.
-2. Select **Download ZIP**.
-3. Extract the downloaded folder.
-4. Open `index.html` in a browser.
-
-### Option 3: Use a local static server
-
-A static development server is recommended for more consistent browser behaviour.
-
-Using Node.js:
-
-```bash
-npx serve .
-```
-
-Using Python:
-
-```bash
-python -m http.server 8000
-```
-
-Then open the local address shown in the terminal.
-
----
-
-## Default Workspace
-
-When CodeSpace is opened for the first time, the virtual workspace includes:
-
-```text
-index.html
-style.css
-script.js
-```
-
-These files provide a basic starting point for creating a front-end project.
-
----
-
-## Usage
-
-### Create a file
-
-Select the **plus icon** in the file explorer and enter the new file name.
-
-Example:
-
-```text
-about.html
-```
-
-### Import files
-
-Upload or drag project files into the file explorer.
-
-Files and folders will be added to the virtual workspace.
-
-### Edit code
-
-Select a file from the sidebar and write or modify its contents in the editor.
-
-### Compile the project
-
-Select **Compile** or use:
-
-```text
-Ctrl + Enter
-```
-
-The application reads `index.html`, resolves linked workspace files, and renders the result in the preview panel.
-
-### Test responsive layouts
-
-Use the desktop, tablet, and mobile controls in the preview toolbar.
-
-### Download a file
-
-Open the required file and select **Download**.
-
-### Reset the workspace
-
-Select **Reset** to remove the current workspace and restore the default starter files.
-
-> Resetting the workspace may permanently remove unsaved project files.
-
----
-
-## Project Structure
-
-```text
--kmdlabs-codespace/
-├── index.html
-├── style.css
-├── script.js
-└── README.md
-```
-
-### `index.html`
-
-Contains the application interface and page structure.
-
-### `style.css`
-
-Contains the CodeSpace layout, responsive design, animations, themes, editor styling, and component styles.
-
-### `script.js`
-
-Contains the application logic, including:
-
-* Virtual file management
-* File creation and deletion
-* Local workspace persistence
-* Preview compilation
-* Console capture
-* File importing
-* File downloading
-* Responsive interface controls
-
----
-
-## Browser Support
-
-CodeSpace is intended for modern browsers that support:
-
-* `localStorage`
-* File APIs
-* Drag-and-drop APIs
-* Sandboxed iframes
-* Modern JavaScript syntax
-
-Recommended browsers include:
-
-* Google Chrome
-* Microsoft Edge
-* Mozilla Firefox
-* Safari
-
-Some folder-upload functionality may vary between browsers.
-
----
-
-## Security
-
-Compiled projects run inside a sandboxed `<iframe>` to separate previewed code from the main CodeSpace interface.
-
-However, users should still avoid importing or running untrusted JavaScript files.
-
-CodeSpace is a client-side development tool and should not be treated as a secure environment for executing unknown or potentially malicious code.
-
----
-
-## Current Limitations
-
-* Projects are stored in the current browser rather than in a cloud account.
-* Workspace data does not automatically synchronise between devices.
-* The editor is intended primarily for front-end development.
-* Server-side languages such as PHP and Python can be edited but are not executed in the browser.
-* Clearing browser data may delete locally stored projects.
-* Only the currently selected file can be downloaded directly.
-
----
-
-## Planned Improvements
-
-Possible future improvements include:
-
-* Full project ZIP export
-* Multiple project workspaces
-* Cloud storage and account synchronisation
-* Improved syntax highlighting
-* Code formatting
-* Search and replace
-* Custom editor themes
-* Additional keyboard shortcuts
-* GitHub repository integration
-* Improved error reporting
-
----
-
-## Contributing
-
-Contributions, bug reports, and improvement suggestions are welcome.
-
-To contribute:
-
-1. Fork the repository.
-2. Create a new branch.
-
-```bash
-git checkout -b feature/improvement-name
-```
-
-3. Make and test your changes.
-4. Commit the changes.
-
-```bash
-git commit -m "Add improvement description"
-```
-
-5. Push the branch.
-
-```bash
-git push origin feature/improvement-name
-```
-
-6. Open a pull request.
-
-Please keep pull requests focused on one feature, fix, or improvement.
-
----
-
-## Author
-
-Developed by **KM Digital Labs**.
-
-GitHub: [@kegodev](https://github.com/kegodev)
-
----
-
-## License
-
-Copyright © KM Digital Labs.
-
-All rights reserved unless otherwise stated.
-
-The source code may not be copied, redistributed, sold, or used commercially without prior permission from KM Digital Labs.
+Public source visibility does not by itself grant permission to copy, redistribute, sublicense or sell this work.
