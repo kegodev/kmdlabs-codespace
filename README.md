@@ -17,7 +17,7 @@
   </p>
 </div>
 
-![CodeSpace workbench with Explorer, smart editor, live preview and console](assets/readme/codespace-workbench.png)
+![CodeSpace workbench with Explorer, smart editor, live preview and console](assets/readme/codespace-workbench-1786372064247.jpg)
 
 ## Why CodeSpace
 
