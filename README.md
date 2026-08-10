@@ -108,6 +108,18 @@ Local stylesheet, script and image references are resolved inside the virtual pr
 
 Do not use browser storage as the only copy of important work. CodeSpace is a learning and prototyping environment, not a replacement for Git history, access control or server-side secret management.
 
+## Troubleshooting
+
+| Problem | What to try |
+| --- | --- |
+| Preview stays blank | Confirm the workspace contains an `index.html` file, then select **Compile** or press <kbd>Ctrl/⌘ + Enter</kbd>. |
+| Recent code is missing | Check that you are using the same browser and site address. Imported workspaces and browser storage are local to that browser profile. |
+| Old interface appears after an update | Reload once while online so the service worker can replace its cached application shell. |
+| JavaScript does not run | Use a `.js` or `.mjs` file referenced by the HTML. JSX and TypeScript are editable but are not transpiled. |
+| Uploaded image is not visible | Use a relative path that matches the image location in Explorer, including its file extension and letter case. |
+
+If the problem is reproducible, open a [bug report](https://github.com/kegodev/kmdlabs-codespace/issues/new?template=bug_report.md) with the browser, device, steps and console output.
+
 ## Project structure
 
 ```text
