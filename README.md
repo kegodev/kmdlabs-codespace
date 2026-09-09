@@ -29,8 +29,8 @@ The application has no framework or package runtime. Its core HTML, CSS and Java
 
 | Area | What it gives you |
 | --- | --- |
-| Editor | Multi-file tabs, line numbers, syntax colour, paired characters, indentation and context suggestions |
-| Navigation | Explorer, quick open, filename filter, full-project text search and a command palette |
+| Editor | Multi-file tabs, line numbers, grouped HTML tag colours, paired characters, indentation, context suggestions and adjustable type size |
+| Navigation | Collapsible Explorer, quick open, filename filter, full-project text search and a command palette |
 | Preview | Sandboxed HTML/CSS/JavaScript output with desktop, tablet and mobile viewports |
 | Feedback | Captured `log`, `warn`, runtime error and unhandled rejection output |
 | Speed | 90 ms run scheduling, in-place CSS hot updates, large-file fallback and no external font request |
@@ -65,6 +65,7 @@ Your project is saved automatically in the current browser. Clearing site data r
 | <kbd>Ctrl/⌘ + P</kbd> | Quick-open a file |
 | <kbd>Ctrl/⌘ + Shift + P</kbd> | Open the command palette |
 | <kbd>Ctrl/⌘ + Shift + F</kbd> | Search the project |
+| <kbd>Ctrl/⌘ + B</kbd> | Toggle the Explorer sidebar |
 | <kbd>Ctrl/⌘ + Enter</kbd> | Compile and open the preview |
 | <kbd>Ctrl/⌘ + S</kbd> | Save the workspace immediately |
 | <kbd>Ctrl/⌘ + N</kbd> | Create a file |

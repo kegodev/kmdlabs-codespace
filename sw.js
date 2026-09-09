@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kmdlabs-codespace-v4';
+const CACHE_NAME = 'kmdlabs-codespace-v5';
 const CORE_ASSETS = ['./','./index.html','./style.css','./script.js','./favicon.svg','./manifest.webmanifest'];
 
 self.addEventListener('install', event => {

@@ -30,7 +30,8 @@
   <div class="actions">
     <button class="site-home-link" id="commandBtn" type="button" title="Command palette (Ctrl/Cmd + Shift + P)" aria-label="Open command palette">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m8 9-3 3 3 3M16 9l3 3-3 3M14 5l-4 14"/></svg>
-      <span>Commands</span>
+    <span>Search files or run a command</span>
+    <kbd>Ctrl Shift P</kbd>
     </button>
     <div class="autorun">
       auto-run
@@ -117,8 +118,8 @@
     <div class="editor-topline" id="editorTopline"></div>
     <div class="editor-wrap" id="editorWrap"></div>
     <div class="editor-status">
-      <span id="saveStatus" class="saved">saved locally</span>
-      <span class="status-cluster"><span id="workspaceStatus">3 files</span><span id="compileStatus">Ready</span><span>UTF-8</span><span id="languageStatus">HTML</span><span id="cursorStatus">Ln 1, Col 1</span></span>
+      <span class="status-left"><button class="status-button" id="sidebarToggleBtn" type="button" title="Toggle sidebar (Ctrl/Cmd + B)" aria-label="Toggle sidebar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button><span class="branch-status" title="Local workspace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="19" r="2"/><path d="M6 7v10M8 7c5 0 3 6 8 6V8"/></svg>local</span><span id="saveStatus" class="saved">saved locally</span></span>
+      <span class="status-cluster"><button class="status-button text-button" id="fontDownBtn" type="button" title="Decrease editor font size" aria-label="Decrease editor font size">A−</button><button class="status-button text-button" id="fontUpBtn" type="button" title="Increase editor font size" aria-label="Increase editor font size">A+</button><span id="workspaceStatus">3 files</span><span id="compileStatus">Ready</span><span>UTF-8</span><span id="languageStatus">HTML</span><span id="cursorStatus">Ln 1, Col 1</span></span>
     </div>
   </div>
 
@@ -196,6 +197,7 @@
       <span>Quick open</span><kbd>Ctrl / ⌘ + P</kbd>
       <span>Command palette</span><kbd>Ctrl / ⌘ + Shift + P</kbd>
       <span>Search project</span><kbd>Ctrl / ⌘ + Shift + F</kbd>
+      <span>Toggle sidebar</span><kbd>Ctrl / ⌘ + B</kbd>
       <span>Run preview</span><kbd>Ctrl / ⌘ + Enter</kbd>
       <span>Save locally</span><kbd>Ctrl / ⌘ + S</kbd>
       <span>New file</span><kbd>Ctrl / ⌘ + N</kbd>

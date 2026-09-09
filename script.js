@@ -144,6 +144,7 @@ const LEGACY_STORAGE_KEY = 'kmdlabs-codespace-workspace-v3';
 const saveStatus = document.getElementById('saveStatus');
 const cursorStatus = document.getElementById('cursorStatus');
 let saveTimer = null;
+let editorFontSize = 13;
 
 function setSaveStatus(text, state){
   saveStatus.textContent = text;
@@ -157,7 +158,13 @@ function saveWorkspace(){
       activeFile,
       openTabs,
       collapsedFolders:[...collapsedFolders],
-      settings:{autoRun,previewOpen,consoleCollapsed:document.getElementById('consolePanel')?.classList.contains('collapsed') || false}
+      settings:{
+        autoRun,
+        previewOpen,
+        consoleCollapsed:document.getElementById('consolePanel')?.classList.contains('collapsed') || false,
+        sidebarCollapsed:document.body.classList.contains('sidebar-collapsed'),
+        editorFontSize
+      }
     }));
     setSaveStatus('saved locally', 'saved');
   }catch(error){
@@ -538,6 +545,17 @@ function findTagEnd(code,start){
   }
   return code.length-1;
 }
+const HTML_TAG_COLOUR_GROUPS = {
+  document:new Set(['html','head','body','main','header','footer','nav','section','article','aside']),
+  content:new Set(['h1','h2','h3','h4','h5','h6','p','span','strong','em','small','blockquote','pre','code','ul','ol','li']),
+  interactive:new Set(['a','button','input','textarea','select','option','label','form','details','summary','dialog']),
+  media:new Set(['img','picture','source','video','audio','canvas','svg','path','iframe','link','script','style','meta'])
+};
+function htmlTagToken(name){
+  const normalized = name.toLowerCase();
+  const group = Object.keys(HTML_TAG_COLOUR_GROUPS).find(key => HTML_TAG_COLOUR_GROUPS[key].has(normalized));
+  return token(group ? 'tag-'+group : 'tag', name);
+}
 function highlightHTMLTag(raw){
   let out='',i=0;
   if(raw[i]==='<'){out+=token('punctuation','<');i++;}
@@ -547,7 +565,7 @@ function highlightHTMLTag(raw){
   }
   while(i<raw.length && /\s/.test(raw[i])){out+=escCode(raw[i]);i++;}
   let j=i;while(j<raw.length && /[\w:-]/.test(raw[j]))j++;
-  if(j>i){out+=token('tag',raw.slice(i,j));i=j;}
+  if(j>i){out+=htmlTagToken(raw.slice(i,j));i=j;}
   while(i<raw.length){
     const ch=raw[i];
     if(ch==='"'||ch==="'"){
@@ -1217,6 +1235,9 @@ function commands(){
     {label:'File: Download Active File',hint:'',run:()=>document.getElementById('downloadBtn').click()},
     {label:'View: Quick Open File',hint:'Ctrl/⌘ P',run:()=>openPalette('files')},
     {label:'View: Search Project',hint:'Ctrl/⌘ Shift F',run:()=>setSidePanel('search')},
+    {label:'View: Toggle Sidebar',hint:'Ctrl/⌘ B',run:()=>sidebarToggleBtn?.click()},
+    {label:'Editor: Increase Font Size',hint:'',run:()=>applyEditorFontSize(editorFontSize + 1, true)},
+    {label:'Editor: Decrease Font Size',hint:'',run:()=>applyEditorFontSize(editorFontSize - 1, true)},
     {label:'View: Toggle Console',hint:'',run:()=>document.getElementById('toggleConsoleBtn').click()},
     {label:'Run: Compile Preview',hint:'Ctrl/⌘ Enter',run:openPreview},
     {label:'Run: Toggle Auto-run',hint:autoRun?'On':'Off',run:()=>autoToggle.click()},
@@ -1313,7 +1334,32 @@ document.addEventListener('keydown', event => {
     event.preventDefault();
     document.getElementById('newFileBtn').click();
   }
+  if(command && key === 'b'){
+    event.preventDefault();
+    document.getElementById('sidebarToggleBtn')?.click();
+  }
 });
+
+/* ---------------- workbench layout and editor display ---------------- */
+const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+const fontDownBtn = document.getElementById('fontDownBtn');
+const fontUpBtn = document.getElementById('fontUpBtn');
+
+function applyEditorFontSize(nextSize, announce = false){
+  editorFontSize = Math.max(11, Math.min(20, Number(nextSize) || 13));
+  document.documentElement.style.setProperty('--editor-font-size', editorFontSize + 'px');
+  currentTextarea?.focus();
+  scheduleSave();
+  if(announce) showToast('Editor font size: ' + editorFontSize + 'px');
+}
+
+sidebarToggleBtn?.addEventListener('click', () => {
+  document.body.classList.toggle('sidebar-collapsed');
+  sidebarToggleBtn.setAttribute('aria-pressed', String(document.body.classList.contains('sidebar-collapsed')));
+  scheduleSave();
+});
+fontDownBtn?.addEventListener('click', () => applyEditorFontSize(editorFontSize - 1, true));
+fontUpBtn?.addEventListener('click', () => applyEditorFontSize(editorFontSize + 1, true));
 
 /* ---------------- compiler ---------------- */
 const previewNote = document.getElementById('previewNote');
@@ -1525,6 +1571,9 @@ function compile(force = false){
 }
 
 renderFileList();
+editorFontSize = Math.max(11, Math.min(20, Number(savedSettings.editorFontSize) || 13));
+document.documentElement.style.setProperty('--editor-font-size', editorFontSize + 'px');
+if(savedSettings.sidebarCollapsed) document.body.classList.add('sidebar-collapsed');
 renderEditor();
 if(savedSettings.consoleCollapsed) consolePanel.classList.add('collapsed');
 if(savedSettings.previewOpen) openPreview();
